@@ -13,12 +13,12 @@ to teams and spun in a hopper for selection of draft order.
 * super-stretch goal: 2D or (god-tier) 3D visualization of actual balls in the hopper
 
 ## To Run
-Simply open your browser to (https://rudil24.githubio/draftballs/). This webapp is 100% client-side Javascript with React components, running in GitHub Pages.
+Simply open your browser to https://rudil24.github.io/draftballs/. This webapp is 100% client-side Javascript with React components, running in GitHub Pages.
 
 ## Development Workflow
 - [x ] 1. install the React + vite packages to local 
 - [x ] 2. commit & push shell/demo then follow [PedroTech's youtube instructions](https://www.youtube.com/watch?v=hn1IkJk24ow) to make sure it will run on GitHub Pages
-- [x ] 3. spike/POC to see if I can get a simple form with state memory to not go blank on reload/refresh. (https://rudil24.github.io/persistpoc/)
+- [x ] 3. spike/POC to see if I can get a simple form with state memory to not go blank on reload/refresh. https://rudil24.github.io/persistpoc/
 - [ ] 4. build MVP. task breakdown:
   - [ ] ask for settings: numTeams and numBalls per team 
   - [ ] render form and get array of teamName[] with submit/clear
