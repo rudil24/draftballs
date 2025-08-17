@@ -12,13 +12,16 @@ to teams and spun in a hopper for selection of draft order.
 * stretch goals: "floor" and "ceiling" for teams (this team can pick no worse than 4th, etc.); improved color & font theming; suspense music W/ MUTE DEFAULT of course; improved media breakpoints
 * super-stretch goal: 2D or (god-tier) 3D visualization of actual balls in the hopper
 
+## Mockup
+![src/assets/draftballs01.png](src/assets/draftballs01.png)
+
 ## To Run
 Simply open your browser to https://rudil24.github.io/draftballs/. This webapp is 100% client-side Javascript with React components, running in GitHub Pages.
 
 ## Development Workflow
-- [x ] 1. install the React + vite packages to local 
-- [x ] 2. commit & push shell/demo then follow [PedroTech's youtube instructions](https://www.youtube.com/watch?v=hn1IkJk24ow) to make sure it will run on GitHub Pages
-- [x ] 3. spike/POC to see if I can get a simple form with state memory to not go blank on reload/refresh. https://rudil24.github.io/persistpoc/
+- [ x ] 1. install the React + vite packages to local 
+- [ x ] 2. commit & push shell/demo then follow [PedroTech's youtube instructions](https://www.youtube.com/watch?v=hn1IkJk24ow) to make sure it will run on GitHub Pages
+- [ x ] 3. spike/POC to see if I can get a simple form with state memory to not go blank on reload/refresh. https://rudil24.github.io/persistpoc/
 - [ ] 4. build MVP. task breakdown:
   - [ ] ask for settings: numTeams and numBalls per team 
   - [ ] render form and get array of teamName[] with submit/clear
@@ -27,6 +30,7 @@ Simply open your browser to https://rudil24.github.io/draftballs/. This webapp i
 - [ ] 5. Test local, deploy to GH Pages, test w/ users
 
 ## Reflection
+|---|---|
 | 15-aug-2025 | just starting, pumped that the Vite+React publish (of just shell project) to GH Pages works so well |
 | 16-aug-2025 | useState and useEffect coming in clutch for the refresh guard, glad i did that first. Onward! |
 
