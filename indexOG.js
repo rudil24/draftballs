@@ -48,11 +48,14 @@ teamsForm.addEventListener('submit', (event) => {
             teamName: value1,
             teamBalls: value2
         });
-        // leave the form up but disable all the fields.
+        // leave the form up but disable all the form fields
         document.getElementById(`team-${i}-name`).disabled = true;
         document.getElementById(`team-${i}-balls`).disabled = true;
     }
     document.getElementById('teams-form-submit-button').disabled= true; // disable the submit button, too
+    document.getElementById('num-teams-button').disabled = true; // disable the num-teams-button, too
+    document.getElementById('teams-form-submit-button').textContent = 'Loading the Hopper!';
+
     console.log('\n--- teamsData built ---');
     console.log(teamsData); // Log teamsData to console for inspection
     // M4. use teamBalls to build hopperArray filled with RANDOM entries in the amount of teamName[] x teamBalls[]
@@ -65,8 +68,11 @@ teamsForm.addEventListener('submit', (event) => {
         }
     }
     console.log('\n--- hopperArray built ---');
-    console.log(hopperArray);
-    // Shuffle the Array (Fisher-Yates Algorithm) ---
+    // copy hopperArray to a temp array so we can view it while we send the real one to the shuffle
+    // otherwise the shuffle happens lightning fast, so by the time you console.log it, it's already shuffled
+    const tempHopperArray = hopperArray.slice();    
+    console.log(tempHopperArray);
+    // Shuffle the Array (Fisher-Yates Algorithm) ---  
     // This is the most efficient and standard way to shuffle an array.
     // We iterate backwards from the last element.
     for (let i = hopperArray.length - 1; i > 0; i--) {
@@ -91,6 +97,8 @@ teamsForm.addEventListener('submit', (event) => {
             pickedTeamIds.add(randomElement.teamId); //add to our set so we don't pick it again
         }
     }
+    //save a timestamp of when the picks were made
+    const pickResultsTimestamp = new Date().toLocaleString();
     console.log('\n--- pickResults ---');
     console.log(pickResults);
 
@@ -118,6 +126,8 @@ teamsForm.addEventListener('submit', (event) => {
             `;
         });                                     
     }
+    //after we've made all the picks, display the timestamp
+    document.getElementById('pick-results-timestamp').textContent = `Picks made on ${pickResultsTimestamp}`;    
 });
 
 
