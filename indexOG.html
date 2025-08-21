@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Draftballs: Old School Version</title>
+  <style>
+#app-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+    "settings-container hopper-visualizer-container"
+    "teams-form-container hopper-output-container";
+  max-width: 1080px; /* Add a max-width to prevent the container from getting too wide */
+}
+#settings-container {
+  grid-area: settings-container;
+}
+#teams-form-container {
+  grid-area: teams-form-container;
+}
+
+/* Add this media query to stack the grid as 4x1 when the media width gets smaller than 720px wide */
+@media (max-width: 720px) {
+  #app-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-areas:
+      "settings-container"
+      "teams-form-container"
+      "hopper-visualizer-container"
+      "hopper-output-container";
+  }
+  #settings-container {
+    grid-area: settings-container;
+  }
+  #teams-form-container {
+    grid-area: teams-form-container;
+  }
+  #hopper-visualizer-container {
+    grid-area: hopper-visualizer-container;
+  }
+  #hopper-output-container {
+    grid-area: hopper-output-container;
+  }
+}  
+  </style> 
+</head>
+<body>
+<h1>draftBalls fantasy lottery generator</h1>
+<div id="app-container">
+  <div id="settings-container">
+    <label for="num-teams">Number of teams (16 max): </label>
+    <input type="number" id="num-teams" name="num-teams" min="1" max="16" />
+    <button id="num-teams-button" name="num-teams-button">Update</button>
+  </div>
+  <!-- now that we have the number of teams, we go to indexOG.js to construct the team entry form -->
+  <div id="teams-form-container">
+    <form id="teams-form">
+      <!-- Input fields will be generated here by the .js -->
+      <!-- hide the submit button with hidden (the .js unhides it after it builds the input fields) -->
+      <button hidden id="teams-form-submit-button" type="submit">Load the Hopper!</button>
+    </form>
+  </div>
+  <div id="hopper-visualizer-container">
+    <img src="src/assets/hopper.png" alt="hopper" />
+  </div>
+  <div id="hopper-output-container">
+    <!-- hopper output will be generated here by indexOG.js -->
+  </div>
+  <script src="indexOG.js" charset="utf-8"></script>
+</body>
+</html>

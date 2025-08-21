@@ -30,9 +30,13 @@ Simply open your browser to https://rudil24.github.io/draftballs/. This webapp i
 - [ ] 5. Test local, deploy to GH Pages, test w/ users
 
 ## Reflection
+|   |   |
 |---|---|
+| 20-aug-2025 | OK got a rudimentary (get it) version going in indexOG.html. i need to make it tighter/compartmentalized with the teams update button (it just appends stuff to the form rn.) but the refresh happy path works. i'll look to compartmentalize as i move it to react, and fix its absolute ugliness in the display. but the MATH and hopper functionality IS THERE!
+| 18-aug-2025 | i blocked myself by probably trying to do too much in React, too soon. i got into vaporlock on hooks and props, which slowed me from getting to the functional blocks of what the code had to do. Tomorrow, i'm going to spin up an oldschool pure javascript/html version (no styling) and see if that can help get me unstuck on parsing out the React components the right way. | 
+| 17-aug-2025 | enjoying excalidraw.com for simple mockups, love how clean the interface is. (too bad i built such a busy mock in it.)
+| 16-aug-2025 | useState and useEffect coming in clutch for the refresh guard proof of concept. just needed to get confident that GHPages or Vite wouldn't do something weird. glad i did that first. Onward! |
 | 15-aug-2025 | just starting, pumped that the Vite+React publish (of just shell project) to GH Pages works so well |
-| 16-aug-2025 | useState and useEffect coming in clutch for the refresh guard, glad i did that first. Onward! |
 
 ## References
 

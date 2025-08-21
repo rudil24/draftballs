@@ -1,3 +1,4 @@
+//this is the template Vite+React app, we'll point index.html->main.jsx->AppOld.jsx, until we stand up v0.1 of new App.jsx, since website is "live"
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
