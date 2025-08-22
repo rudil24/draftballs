@@ -13,7 +13,7 @@ to teams and spun in a hopper for selection of draft order.
 * super-stretch goal: 2D or (god-tier) 3D visualization of actual balls in the hopper
 
 ## Mockup
-![src/assets/draftballs01.png](src/assets/draftballs01.png)
+![src/assets/draftballs_mockup_03.png](src/assets/draftballs_mockup_03.png)
 
 ## To Run
 Simply open your browser to https://rudil24.github.io/draftballs/. This webapp is 100% client-side Javascript with React components, running in GitHub Pages.
