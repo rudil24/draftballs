@@ -8,7 +8,6 @@ function TeamForm({ numTeams, initialTeamsData, colorArray, onRunLottery, onClea
   const [localTeams, setLocalTeams] = useState([]);
 
   useEffect(() => {
-    // This effect runs when numTeams changes or on initial load
     const newTeams = Array.from({ length: numTeams }, (_, i) => {
       const existingTeam = initialTeamsData.find(t => t.teamId === i + 1);
       return {
@@ -42,14 +41,20 @@ function TeamForm({ numTeams, initialTeamsData, colorArray, onRunLottery, onClea
         <Typography variant="overline">Total Balls: {totalBalls}</Typography>
       </Box>
       <Stack spacing={1.5}>
-        {localTeams.map(team => (
-          <TeamInputRow
-            key={team.teamId}
-            team={team}
-            onTeamChange={handleTeamChange}
-            disabled={disabled}
-          />
-        ))}
+        {localTeams.map(team => {
+          // Calculate percentage for each team
+          const percentage = totalBalls > 0 ? (Number(team.teamBalls || 0) / totalBalls) * 100 : 0;
+          
+          return (
+            <TeamInputRow
+              key={team.teamId}
+              team={team}
+              onTeamChange={handleTeamChange}
+              percentage={percentage} // <-- Pass percentage as a prop
+              disabled={disabled}
+            />
+          );
+        })}
       </Stack>
       <Box display="flex" justifyContent="space-between" mt={3}>
         <Button

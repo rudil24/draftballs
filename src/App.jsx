@@ -10,21 +10,22 @@ import {
   Grid,
   Typography,
   Paper,
+  Box, // Import Box for layout
 } from '@mui/material';
 import { indigo } from '@mui/material/colors';
 
 // App Components
-import Settings from './components/Settings.jsx';
-import TeamForm from './components/TeamForm.jsx';
-import HopperVisualizer from './components/HopperVisualizer.jsx';
-import ResultsDisplay from './components/ResultsDisplay.jsx';
+import Header from './components/Header'; // <-- Import Header
+import Footer from './components/Footer'; // <-- Import Footer
+import Settings from './components/Settings';
+import TeamForm from './components/TeamForm';
+import HopperVisualizer from './components/HopperVisualizer';
+import ResultsDisplay from './components/ResultsDisplay';
 
-// This is the array of 16 colors you provided.
 const colorArray = ["gold", "navy", "red", "purple", "orangered", "darkgreen", "maroon", "black", 
                           "yellow", "blue", "crimson", "mediumpurple", "orange", "lightgreen", "brown", "gray"];
 
 function App() {
-  // THEME MANAGEMENT
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const theme = useMemo(
     () =>
@@ -43,43 +44,39 @@ function App() {
   );
 
   // STATE MANAGEMENT
-  const [numTeams, setNumTeams] = useState(() => {
-    const savedNum = localStorage.getItem('draftballs_numTeams');
-    return savedNum ? JSON.parse(savedNum) : 12;
-  });
-
-  const [teamsData, setTeamsData] = useState(() => {
-    const savedData = localStorage.getItem('draftballs_teamsData');
-    return savedData ? JSON.parse(savedData) : [];
-  });
-  
-  const [pickResults, setPickResults] = useState(() => {
-    const savedResults = localStorage.getItem('draftballs_pickResults');
-    return savedResults ? JSON.parse(savedResults) : [];
-  });
+  const [numTeams, setNumTeams] = useState(() => JSON.parse(localStorage.getItem('draftballs_numTeams')) || 12);
+  const [teamsData, setTeamsData] = useState(() => JSON.parse(localStorage.getItem('draftballs_teamsData')) || []);
+  const [pickResults, setPickResults] = useState(() => JSON.parse(localStorage.getItem('draftballs_pickResults')) || []);
+  const [timestamp, setTimestamp] = useState(() => localStorage.getItem('draftballs_timestamp') || null);
+  const [revealedPicks, setRevealedPicks] = useState(() => new Set(JSON.parse(localStorage.getItem('draftballs_revealedPicks')) || []));
   
   const [lotteryStatus, setLotteryStatus] = useState(() => {
-     const savedResults = localStorage.getItem('draftballs_pickResults');
-     return savedResults && JSON.parse(savedResults).length > 0 ? 'results_ready' : 'setup';
+     return (JSON.parse(localStorage.getItem('draftballs_pickResults')) || []).length > 0 ? 'results_ready' : 'setup';
   });
 
-  // SIDE EFFECTS - Save to Local Storage
+  // SIDE EFFECTS
   useEffect(() => {
     localStorage.setItem('draftballs_numTeams', JSON.stringify(numTeams));
     localStorage.setItem('draftballs_teamsData', JSON.stringify(teamsData));
     localStorage.setItem('draftballs_pickResults', JSON.stringify(pickResults));
-  }, [numTeams, teamsData, pickResults]);
+    if (timestamp) localStorage.setItem('draftballs_timestamp', timestamp);
+    localStorage.setItem('draftballs_revealedPicks', JSON.stringify(Array.from(revealedPicks)));
+  }, [numTeams, teamsData, pickResults, timestamp, revealedPicks]);
 
-  // HANDLER FUNCTIONS
+  const handleRevealPick = (pickNumber) => {
+    setRevealedPicks(prev => new Set(prev).add(pickNumber));
+  };
+
   const handleRunLottery = (finalTeamsData) => {
     setTeamsData(finalTeamsData);
+    setRevealedPicks(new Set());
 
     const hopperArray = [];
-    for (const team of finalTeamsData) {
+    finalTeamsData.forEach(team => {
         for (let i = 0; i < team.teamBalls; i++) {
             hopperArray.push({ teamId: team.teamId, teamName: team.teamName }); 
         }
-    }
+    });
 
     for (let i = hopperArray.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -90,24 +87,27 @@ function App() {
     const pickedTeamIds = new Set();
     while (finalPicks.length < numTeams && hopperArray.length > 0) {  
         const randomIndex = Math.floor(Math.random() * hopperArray.length);
-        const randomElement = hopperArray[randomIndex];
-            
-        if (!pickedTeamIds.has(randomElement.teamId)) {
-            finalPicks.push(randomElement);
-            pickedTeamIds.add(randomElement.teamId);
+        if (!pickedTeamIds.has(hopperArray[randomIndex].teamId)) {
+            finalPicks.push(hopperArray[randomIndex]);
+            pickedTeamIds.add(hopperArray[randomIndex].teamId);
         }
     }
 
     setPickResults(finalPicks.map((pick, index) => ({ ...pick, pickNumber: index + 1 })));
+    setTimestamp(new Date().toLocaleString());
     setLotteryStatus('results_ready');
   };
 
   const handleReset = () => {
     setTeamsData([]);
     setPickResults([]);
+    setTimestamp(null);
+    setRevealedPicks(new Set());
     setLotteryStatus('setup');
     localStorage.removeItem('draftballs_teamsData');
     localStorage.removeItem('draftballs_pickResults');
+    localStorage.removeItem('draftballs_timestamp');
+    localStorage.removeItem('draftballs_revealedPicks');
   };
   
   const isLocked = lotteryStatus === 'results_ready';
@@ -115,45 +115,39 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Container maxWidth="lg" sx={{ my: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
-          draftBalls Fantasy League Lottery
-        </Typography>
-        <Grid container spacing={4}>
-          {/* Left Pane */}
-          <Grid item xs={12} md={6}>
-            <Paper elevation={3} sx={{ p: 2 }}>
-              <Settings
-                numTeams={numTeams}
-                onNumTeamsChange={(newVal) => setNumTeams(Number(newVal))}
-                disabled={isLocked}
-              />
-              <TeamForm
-                key={numTeams} // Force re-render on numTeams change
-                numTeams={numTeams}
-                initialTeamsData={teamsData}
-                colorArray={colorArray}
-                onRunLottery={handleRunLottery}
-                onClear={handleReset}
-                disabled={isLocked}
-              />
-            </Paper>
+      {/* Main layout Box to manage header/content/footer */}
+      <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <Header />
+        
+        {/* Main content container */}
+        <Container component="main" maxWidth="lg" sx={{ my: 4, flexGrow: 1 }}>
+          <Grid container spacing={4}>
+            <Grid item xs={12} md={6}>
+              <Paper elevation={3} sx={{ p: 2, height: '100%' }}>
+                <Settings numTeams={numTeams} onNumTeamsChange={(v) => setNumTeams(Number(v))} disabled={isLocked} />
+                <TeamForm key={numTeams} numTeams={numTeams} initialTeamsData={teamsData} colorArray={colorArray} onRunLottery={handleRunLottery} onClear={handleReset} disabled={isLocked} />
+              </Paper>
+            </Grid>
+            
+            <Grid item xs={12} md={6}>
+              <Paper elevation={3} sx={{ p: 2, height: '100%' }}>
+                <HopperVisualizer />
+                {lotteryStatus === 'results_ready' && (
+                  <ResultsDisplay 
+                    pickResults={pickResults} 
+                    teamsData={teamsData}
+                    timestamp={timestamp}
+                    revealedPicks={revealedPicks}
+                    onRevealPick={handleRevealPick}
+                  />
+                )}
+              </Paper>
+            </Grid>
           </Grid>
-          
-          {/* Right Pane */}
-          <Grid item xs={12} md={6}>
-            <Paper elevation={3} sx={{ p: 2, height: '100%' }}>
-              <HopperVisualizer />
-              {lotteryStatus === 'results_ready' && (
-                <ResultsDisplay 
-                  pickResults={pickResults} 
-                  teamsData={teamsData}
-                />
-              )}
-            </Paper>
-          </Grid>
-        </Grid>
-      </Container>
+        </Container>
+        
+        <Footer />
+      </Box>
     </ThemeProvider>
   );
 }

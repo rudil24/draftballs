@@ -23,15 +23,20 @@ Simply open your browser to https://rudil24.github.io/draftballs/. This webapp i
 - [ x ] 2. commit & push shell/demo then follow [PedroTech's youtube instructions](https://www.youtube.com/watch?v=hn1IkJk24ow) to make sure it will run on GitHub Pages
 - [ x ] 3. spike/POC to see if I can get a simple form with state memory to not go blank on reload/refresh. https://rudil24.github.io/persistpoc/
 - [ ] 4. build MVP. task breakdown:
-  - [ ] ask for settings: numTeams and numBalls per team 
-  - [ ] render form and get array of teamName[] with submit/clear
-  - [ ] on submit, build hopper array & logic so we get "true" elements spawned, jumbled, being picked at random, and then removed from the hopper before the next pull. many of the existing draft tools just do blob percentages (oh you have 10 of the 50 balls? then any Math(random) from 0.0 to 0.2 is yours.) that ain't it.
-  - [ ] progressive disclosure of the balls picked, in inverse order (or user choice of order?)
-- [ ] 5. Test local, deploy to GH Pages, test w/ users
+  - [ x ] ask for settings: numTeams and numBalls per team 
+  - [ x ] render form and get array of teamName[] with submit/clear
+  - [ x ] on submit, build hopper array & logic so we get "true" elements spawned, jumbled, being picked at random, and then removed from the hopper before the next pull. many of the existing draft tools just do blob percentages (oh you have 10 of the 50 balls? then any Math(random) from 0.0 to 0.2 is yours.) that ain't it.
+  - [ x ] progressive disclosure of the balls picked, in inverse order (or user choice of order?)
+- [ x ] 5. Test local (self), DEPLOY as v0.1 to GH Pages
+- [ x ] 6. Improve analytics (as user enters teamBalls, auto-update % of total balls.) 
+- [ ] 7. Also look at installing probability column(s) on reveal. Probability of being picked when they did, and probability of NOT being picked UNTIL they did (not a statistician will probably need AI here to help)
+- [ ] 8. Improve UI/UX with color/typography/theming/responsive design improvements
+- [ ] 9. DEPLOY v0.5, test with actual users 
 
 ## Reflection
 |   |   |
 |---|---|
+| 21-aug-2025 | React single page app is much easier to envision now. Needed to ask AI on some of the useState / useEffect
 | 20-aug-2025 | OK got a rudimentary (get it) version going in indexOG.html. i need to make it tighter/compartmentalized with the teams update button (it just appends stuff to the form rn.) but the refresh happy path works. i'll look to compartmentalize as i move it to react, and fix its absolute ugliness in the display. but the MATH and hopper functionality IS THERE!
 | 18-aug-2025 | i blocked myself by probably trying to do too much in React, too soon. i got into vaporlock on hooks and props, which slowed me from getting to the functional blocks of what the code had to do. Tomorrow, i'm going to spin up an oldschool pure javascript/html version (no styling) and see if that can help get me unstuck on parsing out the React components the right way. | 
 | 17-aug-2025 | enjoying excalidraw.com for simple mockups, love how clean the interface is. (too bad i built such a busy mock in it.)

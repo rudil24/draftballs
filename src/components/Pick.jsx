@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Paper, Typography, Box } from '@mui/material';
 
-function Pick({ pick, team }) {
-  const [isRevealed, setIsRevealed] = useState(false);
-
+function Pick({ pick, team, isRevealed, onReveal }) {
   if (!isRevealed) {
     return (
       <Button 
         variant="outlined" 
         fullWidth 
-        onClick={() => setIsRevealed(true)}
+        onClick={onReveal}
         sx={{ justifyContent: 'flex-start', p: 1.5 }}
       >
         Pick #{pick.pickNumber}
@@ -17,12 +15,15 @@ function Pick({ pick, team }) {
     );
   }
 
+  // If the team color is black, use white for the text.
+  const textColor = team.color === 'black' ? '#FFFFFF' : team.color;
+
   return (
     <Paper 
       variant="outlined" 
-      sx={{ p: 1.5, display: 'flex', alignItems: 'center', gap: 2 }}
+      sx={{ p: 1.5, display: 'flex', alignItems: 'center', gap: 2, backgroundColor: 'action.hover' }}
     >
-      <Typography variant="body1" sx={{ width: '3em' }}>
+      <Typography variant="body1" sx={{ width: '3em', color: 'text.secondary' }}>
         #{pick.pickNumber}
       </Typography>
       <Box 
@@ -32,9 +33,10 @@ function Pick({ pick, team }) {
           borderRadius: '50%', 
           backgroundColor: team.color,
           border: '1px solid grey',
+          flexShrink: 0
         }} 
       />
-      <Typography variant="body1" sx={{ fontWeight: 'bold', color: team.color, flexGrow: 1 }}>
+      <Typography variant="body1" sx={{ fontWeight: 'bold', color: textColor, flexGrow: 1 }}>
         {team.teamName}
       </Typography>
       <Typography variant="body2" color="text.secondary">

@@ -2,9 +2,7 @@ import React from 'react';
 import Pick from './Pick';
 import { Stack, Typography, Box } from '@mui/material';
 
-function ResultsDisplay({ pickResults, teamsData }) {
-  const pickTimestamp = new Date().toLocaleString();
-
+function ResultsDisplay({ pickResults, teamsData, timestamp, revealedPicks, onRevealPick }) {
   return (
     <Box>
        <Typography variant="h6" component="h3" gutterBottom align="center">
@@ -16,12 +14,16 @@ function ResultsDisplay({ pickResults, teamsData }) {
             key={pick.pickNumber}
             pick={pick}
             team={teamsData.find(t => t.teamId === pick.teamId)}
+            isRevealed={revealedPicks.has(pick.pickNumber)}
+            onReveal={() => onRevealPick(pick.pickNumber)}
           />
         ))}
       </Stack>
-      <Typography variant="caption" display="block" align="center" sx={{ mt: 2 }}>
-        Lottery run on: {pickTimestamp}
-      </Typography>
+      {timestamp && (
+        <Typography variant="caption" display="block" align="center" sx={{ mt: 2, color: 'text.secondary' }}>
+          Lottery run on: {timestamp}
+        </Typography>
+      )}
     </Box>
   );
 }
