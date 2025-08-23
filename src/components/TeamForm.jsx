@@ -1,8 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import TeamInputRow from './TeamInputRow';
-import { Box, Button, Typography, Stack } from '@mui/material';
+import { Box, Button, Typography, Stack, TextField } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
+
+// A new component for the column headers
+const FormHeader = ({ totalBalls }) => (
+  <Box display="flex" alignItems="center" sx={{ pl: 'calc(3em + 20px + 28px)' }}> {/* Offset to align with columns */}
+    <Box sx={{ flexGrow: 1 }} /> {/* Spacer to push content to the right */}
+    <TextField
+      label="SUM"
+      value={totalBalls}
+      disabled
+      variant="outlined"
+      size="small"
+      sx={{ width: '90px', mr: 1.5 }} // Matches TeamInputRow's ball field width
+    />
+    <Typography 
+      variant="body2" 
+      sx={{ 
+        width: '55px', 
+        textAlign: 'right', 
+        color: 'text.secondary'
+      }}
+    >
+      %
+    </Typography>
+  </Box>
+);
+
 
 function TeamForm({ numTeams, initialTeamsData, colorArray, onRunLottery, onClear, disabled }) {
   const [localTeams, setLocalTeams] = useState([]);
@@ -37,20 +63,18 @@ function TeamForm({ numTeams, initialTeamsData, colorArray, onRunLottery, onClea
 
   return (
     <form onSubmit={handleSubmit}>
-      <Box sx={{ mb: 2 }}>
-        <Typography variant="overline">Total Balls: {totalBalls}</Typography>
-      </Box>
-      <Stack spacing={1.5}>
+      {/* Render the new header component */}
+      <FormHeader totalBalls={totalBalls} />
+      
+      <Stack spacing={1.5} sx={{ mt: 1 }}>
         {localTeams.map(team => {
-          // Calculate percentage for each team
           const percentage = totalBalls > 0 ? (Number(team.teamBalls || 0) / totalBalls) * 100 : 0;
-          
           return (
             <TeamInputRow
               key={team.teamId}
               team={team}
               onTeamChange={handleTeamChange}
-              percentage={percentage} // <-- Pass percentage as a prop
+              percentage={percentage}
               disabled={disabled}
             />
           );

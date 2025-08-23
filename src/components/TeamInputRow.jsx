@@ -5,10 +5,15 @@ function TeamInputRow({ team, onTeamChange, percentage, disabled }) {
   const textColor = team.color === 'black' ? '#FFFFFF' : team.color;
 
   return (
+    // The main flex container for the row
     <Box display="flex" alignItems="center" gap={1.5}>
-      <Typography variant="body2" sx={{ width: '2em', textAlign: 'right' }}>
+      
+      {/* Column 1: Team ID */}
+      <Typography variant="body1" sx={{ width: '3em', textAlign: 'right', flexShrink: 0 }}>
         {team.teamId}.
       </Typography>
+      
+      {/* Column 2: Color Indicator */}
       <Box 
         sx={{ 
           width: 20, 
@@ -19,29 +24,25 @@ function TeamInputRow({ team, onTeamChange, percentage, disabled }) {
           border: '1px solid grey',
         }} 
       />
-      <TextField
-        label="Team Name"
-        value={team.teamName}
-        onChange={(e) => onTeamChange(team.teamId, 'teamName', e.target.value)}
-        fullWidth
-        required
-        disabled={disabled}
-        variant="outlined"
-        size="small"
-        InputLabelProps={{
-          style: { color: textColor },
-        }}
-        sx={{
-          '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-              borderColor: team.color,
-            },
-            '&:hover fieldset': {
-              borderColor: team.color,
-            },
-          },
-        }}
-      />
+      
+      {/* Column 3: Team Name (takes up remaining space) */}
+      <Box sx={{ flexGrow: 1 }}>
+        <TextField
+          label="Team Name"
+          value={team.teamName}
+          onChange={(e) => onTeamChange(team.teamId, 'teamName', e.target.value)}
+          fullWidth // Fills the parent Box
+          required
+          disabled={disabled}
+          variant="outlined"
+          size="small"
+          InputLabelProps={{
+            style: { color: textColor },
+          }}
+        />
+      </Box>
+      
+      {/* Column 4: Balls Input (wider) */}
       <TextField
         label="Balls"
         type="number"
@@ -52,16 +53,18 @@ function TeamInputRow({ team, onTeamChange, percentage, disabled }) {
         inputProps={{ min: 1 }}
         variant="outlined"
         size="small"
-        sx={{ width: '100px' }}
+        sx={{ width: '90px', flexShrink: 0 }} // Increased width
       />
-      {/* Percentage Display */}
+      
+      {/* Column 5: Percentage Display */}
       <Typography 
-        variant="body2" 
+        variant="body1" 
         sx={{ 
           width: '55px', 
           textAlign: 'right', 
           color: 'text.secondary',
-          fontVariantNumeric: 'tabular-nums' // Ensures numbers align nicely
+          fontVariantNumeric: 'tabular-nums',
+          flexShrink: 0
         }}
       >
         {percentage.toFixed(1)}%
