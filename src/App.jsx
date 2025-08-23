@@ -1,22 +1,22 @@
 import React, { useState, useEffect, useMemo } from 'react';
 
-// Material-UI Core Components
+// Material-UI Core & Styles
 import {
   ThemeProvider,
   createTheme,
+  responsiveFontSizes,
   CssBaseline,
   useMediaQuery,
   Container,
   Grid,
-  Typography,
   Paper,
-  Box, // Import Box for layout
+  Box,
 } from '@mui/material';
 import { indigo } from '@mui/material/colors';
 
 // App Components
-import Header from './components/Header'; // <-- Import Header
-import Footer from './components/Footer'; // <-- Import Footer
+import Header from './components/Header';
+import Footer from './components/Footer';
 import Settings from './components/Settings';
 import TeamForm from './components/TeamForm';
 import HopperVisualizer from './components/HopperVisualizer';
@@ -27,23 +27,32 @@ const colorArray = ["gold", "navy", "red", "purple", "orangered", "darkgreen", "
 
 function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-  const theme = useMemo(
+
+  let theme = useMemo(
     () =>
       createTheme({
+        breakpoints: {
+          values: {
+            xs: 0,
+            sm: 600,
+            tablet: 750,
+            md: 900,
+            lg: 1200,
+            xl: 1920,
+          },
+        },
         palette: {
           mode: prefersDarkMode ? 'dark' : 'light',
           primary: {
             main: indigo[500],
-          },
-          secondary: {
-            main: indigo[300],
           },
         },
       }),
     [prefersDarkMode],
   );
 
-  // STATE MANAGEMENT
+  theme = responsiveFontSizes(theme);
+
   const [numTeams, setNumTeams] = useState(() => JSON.parse(localStorage.getItem('draftballs_numTeams')) || 12);
   const [teamsData, setTeamsData] = useState(() => JSON.parse(localStorage.getItem('draftballs_teamsData')) || []);
   const [pickResults, setPickResults] = useState(() => JSON.parse(localStorage.getItem('draftballs_pickResults')) || []);
@@ -54,7 +63,6 @@ function App() {
      return (JSON.parse(localStorage.getItem('draftballs_pickResults')) || []).length > 0 ? 'results_ready' : 'setup';
   });
 
-  // SIDE EFFECTS
   useEffect(() => {
     localStorage.setItem('draftballs_numTeams', JSON.stringify(numTeams));
     localStorage.setItem('draftballs_teamsData', JSON.stringify(teamsData));
@@ -63,10 +71,9 @@ function App() {
     localStorage.setItem('draftballs_revealedPicks', JSON.stringify(Array.from(revealedPicks)));
   }, [numTeams, teamsData, pickResults, timestamp, revealedPicks]);
 
-  const handleRevealPick = (pickNumber) => {
-    setRevealedPicks(prev => new Set(prev).add(pickNumber));
-  };
+  const handleRevealPick = (pickNumber) => setRevealedPicks(prev => new Set(prev).add(pickNumber));
 
+  // --- FIX: Restored full function logic ---
   const handleRunLottery = (finalTeamsData) => {
     setTeamsData(finalTeamsData);
     setRevealedPicks(new Set());
@@ -98,6 +105,7 @@ function App() {
     setLotteryStatus('results_ready');
   };
 
+  // --- FIX: Restored full function logic ---
   const handleReset = () => {
     setTeamsData([]);
     setPickResults([]);
@@ -115,22 +123,20 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      {/* Main layout Box to manage header/content/footer */}
       <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <Header />
         
-        {/* Main content container */}
-        <Container component="main" maxWidth="lg" sx={{ my: 4, flexGrow: 1 }}>
+        <Container component="main" maxWidth="xl" sx={{ my: 4, flexGrow: 1 }}>
           <Grid container spacing={4}>
-            <Grid item xs={12} md={6}>
-              <Paper elevation={3} sx={{ p: 2, height: '100%' }}>
+            <Grid item xs={12} tablet={6}>
+              <Paper elevation={3} sx={{ p: { xs: 2, sm: 3 }, height: '100%', maxWidth: { xs: 420, tablet: '100%' }, mx: 'auto' }}>
                 <Settings numTeams={numTeams} onNumTeamsChange={(v) => setNumTeams(Number(v))} disabled={isLocked} />
                 <TeamForm key={numTeams} numTeams={numTeams} initialTeamsData={teamsData} colorArray={colorArray} onRunLottery={handleRunLottery} onClear={handleReset} disabled={isLocked} />
               </Paper>
             </Grid>
             
-            <Grid item xs={12} md={6}>
-              <Paper elevation={3} sx={{ p: 2, height: '100%' }}>
+            <Grid item xs={12} tablet={6}>
+              <Paper elevation={3} sx={{ p: { xs: 2, sm: 3 }, height: '100%', maxWidth: { xs: 420, tablet: '100%' }, mx: 'auto' }}>
                 <HopperVisualizer />
                 {lotteryStatus === 'results_ready' && (
                   <ResultsDisplay 
