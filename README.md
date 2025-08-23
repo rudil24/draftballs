@@ -29,13 +29,14 @@ Simply open your browser to https://rudil24.github.io/draftballs/. This webapp i
   - [ x ] progressive disclosure of the balls picked, in inverse order (or user choice of order?)
 - [ x ] 5. Test local (self), DEPLOY as v0.1 to GH Pages
 - [ x ] 6. Improve analytics (as user enters teamBalls, auto-update % of total balls.) 
-- [ ] 7. Also look at installing probability column(s) on reveal. Probability of being picked when they did, and probability of NOT being picked UNTIL they did (not a statistician will probably need AI here to help)
+- [ ] 7. Also look at installing probability column(s) on reveal. Probability of being picked when they did, and probability of NOT being picked UNTIL they did (not a statistician will probably need AI here to help). SHELVED FOR NOW, look/feel more important, overall % is good enough from previous step. 
 - [ ] 8. Improve UI/UX with color/typography/theming/responsive design improvements
 - [ ] 9. DEPLOY v0.5, test with actual users 
 
 ## Reflection
 |   |   |
 |---|---|
+| 22-aug-2025 | Stood up first React version, i really like the quick single page app capabilities with useEffect, will need to tap into even more i can do there
 | 21-aug-2025 | React single page app is much easier to envision now. Needed to ask AI on some of the useState / useEffect
 | 20-aug-2025 | OK got a rudimentary (get it) version going in indexOG.html. i need to make it tighter/compartmentalized with the teams update button (it just appends stuff to the form rn.) but the refresh happy path works. i'll look to compartmentalize as i move it to react, and fix its absolute ugliness in the display. but the MATH and hopper functionality IS THERE!
 | 18-aug-2025 | i blocked myself by probably trying to do too much in React, too soon. i got into vaporlock on hooks and props, which slowed me from getting to the functional blocks of what the code had to do. Tomorrow, i'm going to spin up an oldschool pure javascript/html version (no styling) and see if that can help get me unstuck on parsing out the React components the right way. | 
