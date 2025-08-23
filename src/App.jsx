@@ -1,10 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
-
-// Material-UI Core & Styles
 import {
   ThemeProvider,
   createTheme,
-  responsiveFontSizes,
   CssBaseline,
   useMediaQuery,
   Container,
@@ -14,7 +11,6 @@ import {
 } from '@mui/material';
 import { indigo } from '@mui/material/colors';
 
-// App Components
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Settings from './components/Settings';
@@ -22,7 +18,6 @@ import TeamForm from './components/TeamForm';
 import HopperVisualizer from './components/HopperVisualizer';
 import ResultsDisplay from './components/ResultsDisplay';
 
-// NEW: A contrast-safe color palette with light and dark mode variants
 const colorPalette = [
   { light: '#C00000', dark: '#FF5656' }, // 1. Red
   { light: '#00358E', dark: '#6A9FFF' }, // 2. Blue
@@ -42,35 +37,38 @@ const colorPalette = [
   { light: '#3C4000', dark: '#DCE43D' }, // 16. Olive
 ];
 
-
 function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-  const mode = prefersDarkMode ? 'dark' : 'light'; // Determine current mode
+  const mode = prefersDarkMode ? 'dark' : 'light';
 
-  let theme = useMemo(
-    () =>
-      createTheme({
-        breakpoints: {
-          values: {
-            xs: 0,
-            sm: 600,
-            tablet: 750,
-            md: 900,
-            lg: 1200,
-            xl: 1920,
-          },
-        },
-        palette: {
-          mode: prefersDarkMode ? 'dark' : 'light',
-          primary: {
-            main: indigo[500],
-          },
-        },
-      }),
-    [prefersDarkMode],
-  );
-
-  theme = responsiveFontSizes(theme);
+  const theme = useMemo(() => createTheme({
+    breakpoints: {
+      values: { xs: 0, sm: 600, tablet: 750, md: 900, lg: 1200, xl: 1920 },
+    },
+    palette: {
+      mode,
+      primary: { main: indigo[500] },
+    },
+    typography: {
+      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+      h4: {
+        fontSize: '1.6rem',
+        '@media (min-width:750px)': { fontSize: '2.125rem' },
+      },
+      h6: {
+        fontSize: '1.1rem',
+        '@media (min-width:750px)': { fontSize: '1.25rem' },
+      },
+      body1: {
+        fontSize: '0.9rem',
+        '@media (min-width:750px)': { fontSize: '1rem' },
+      },
+      body2: {
+        fontSize: '0.8rem',
+        '@media (min-width:750px)': { fontSize: '0.875rem' },
+      },
+    },
+  }), [prefersDarkMode]);
 
   const [numTeams, setNumTeams] = useState(() => JSON.parse(localStorage.getItem('draftballs_numTeams')) || 12);
   const [teamsData, setTeamsData] = useState(() => JSON.parse(localStorage.getItem('draftballs_teamsData')) || []);
@@ -90,9 +88,10 @@ function App() {
     localStorage.setItem('draftballs_revealedPicks', JSON.stringify(Array.from(revealedPicks)));
   }, [numTeams, teamsData, pickResults, timestamp, revealedPicks]);
 
-  const handleRevealPick = (pickNumber) => setRevealedPicks(prev => new Set(prev).add(pickNumber));
+  const handleRevealPick = (pickNumber) => {
+    setRevealedPicks(prev => new Set(prev).add(pickNumber));
+  };
 
-  // --- FIX: Restored full function logic ---
   const handleRunLottery = (finalTeamsData) => {
     setTeamsData(finalTeamsData);
     setRevealedPicks(new Set());
@@ -124,7 +123,6 @@ function App() {
     setLotteryStatus('results_ready');
   };
 
-  // --- FIX: Restored full function logic ---
   const handleReset = () => {
     setTeamsData([]);
     setPickResults([]);
@@ -144,31 +142,52 @@ function App() {
       <CssBaseline />
       <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <Header />
-        
-        <Container component="main" maxWidth="xl" sx={{ my: 4, flexGrow: 1 }}>
-          <Grid container spacing={4}>
-            <Grid item xs={12} tablet={6}>
-              <Paper elevation={3} sx={{ p: { xs: 2, sm: 3 }, height: '100%', maxWidth: { xs: 420, tablet: '100%' }, mx: 'auto' }}>
+        <Container component="main" maxWidth="xl" sx={{ my: { xs: 2, sm: 4 }, flexGrow: 1 }}>
+          {/* Add display: 'flex' to make the container's children (the items) height-aware */}
+          <Grid container spacing={{ xs: 2, sm: 4 }} sx={{ height: '100%' }}>
+            
+            {/* FIX: Make the Grid item a flex container */}
+            <Grid item xs={12} tablet={6} sx={{ display: 'flex' }}>
+              <Paper
+                elevation={3}
+                sx={{
+                  p: { xs: 2, sm: 3 },
+                  width: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  flexGrow: 1, // FIX: Allow Paper to grow vertically
+                }}
+              >
                 <Settings numTeams={numTeams} onNumTeamsChange={(v) => setNumTeams(Number(v))} disabled={isLocked} />
-                <TeamForm 
-                  key={numTeams} 
-                  numTeams={numTeams} 
-                  initialTeamsData={teamsData} 
-                  colorPalette={colorPalette} // Pass the new palette
-                  mode={mode} // Pass the current mode
-                  onRunLottery={handleRunLottery} 
-                  onClear={handleReset} 
-                  disabled={isLocked} 
+                <TeamForm
+                  key={numTeams}
+                  numTeams={numTeams}
+                  initialTeamsData={teamsData}
+                  colorPalette={colorPalette}
+                  mode={mode}
+                  onRunLottery={handleRunLottery}
+                  onClear={handleReset}
+                  disabled={isLocked}
                 />
               </Paper>
             </Grid>
-            
-            <Grid item xs={12} tablet={6}>
-              <Paper elevation={3} sx={{ p: { xs: 2, sm: 3 }, height: '100%', maxWidth: { xs: 420, tablet: '100%' }, mx: 'auto' }}>
+
+            {/* FIX: Make the Grid item a flex container */}
+            <Grid item xs={12} tablet={6} sx={{ display: 'flex' }}>
+              <Paper
+                elevation={3}
+                sx={{
+                  p: { xs: 2, sm: 3 },
+                  width: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  flexGrow: 1, // FIX: Allow Paper to grow vertically
+                }}
+              >
                 <HopperVisualizer />
                 {lotteryStatus === 'results_ready' && (
-                  <ResultsDisplay 
-                    pickResults={pickResults} 
+                  <ResultsDisplay
+                    pickResults={pickResults}
                     teamsData={teamsData}
                     timestamp={timestamp}
                     revealedPicks={revealedPicks}
@@ -177,9 +196,9 @@ function App() {
                 )}
               </Paper>
             </Grid>
+
           </Grid>
         </Container>
-        
         <Footer />
       </Box>
     </ThemeProvider>
