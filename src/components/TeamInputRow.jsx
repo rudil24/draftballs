@@ -21,7 +21,7 @@ function TeamInputRow({ team, onTeamChange, percentage, disabled }) {
           flexShrink: 0,
           borderRadius: '50%', 
           backgroundColor: team.color,
-          border: '1px solid grey',
+          // border: '1px solid grey', //removing border for more matte finish
         }} 
       />
       

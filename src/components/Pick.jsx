@@ -32,7 +32,7 @@ function Pick({ pick, team, isRevealed, onReveal }) {
           height: 20, 
           borderRadius: '50%', 
           backgroundColor: team.color,
-          border: '1px solid grey',
+          // border: '1px solid grey', //removed for more matte finish (& matches TeamInputRow style)
           flexShrink: 0
         }} 
       />

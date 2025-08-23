@@ -7,7 +7,7 @@ function Settings({ numTeams, onNumTeamsChange, disabled }) {
   return (
     <Box display="flex" alignItems="center" gap={2} mb={3}>
       <Typography variant="body1" component="label" htmlFor="num-teams" sx={{ flexShrink: 0 }}>
-        Teams
+        Number of Teams (16 max)
       </Typography>
       <TextField
         id="num-teams"

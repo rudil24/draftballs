@@ -30,7 +30,7 @@ const FormHeader = ({ totalBalls }) => (
 );
 
 
-function TeamForm({ numTeams, initialTeamsData, colorArray, onRunLottery, onClear, disabled }) {
+function TeamForm({ numTeams, initialTeamsData, colorPalette, mode, onRunLottery, onClear, disabled }) {
   const [localTeams, setLocalTeams] = useState([]);
 
   useEffect(() => {
@@ -40,11 +40,12 @@ function TeamForm({ numTeams, initialTeamsData, colorArray, onRunLottery, onClea
         teamId: i + 1,
         teamName: existingTeam?.teamName || '',
         teamBalls: existingTeam?.teamBalls || '',
-        color: colorArray[i % colorArray.length],
+        // Assign the correct color variant based on the current mode
+        color: colorPalette[i % colorPalette.length][mode],
       };
     });
     setLocalTeams(newTeams);
-  }, [numTeams, initialTeamsData, colorArray]);
+  }, [numTeams, initialTeamsData, colorPalette, mode]);
 
   const handleTeamChange = (id, field, value) => {
     setLocalTeams(prevTeams =>

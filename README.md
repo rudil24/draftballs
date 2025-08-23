@@ -22,7 +22,7 @@ Simply open your browser to https://rudil24.github.io/draftballs/. This webapp i
 - [ x ] 1. install the React + vite packages to local 
 - [ x ] 2. commit & push shell/demo then follow [PedroTech's youtube instructions](https://www.youtube.com/watch?v=hn1IkJk24ow) to make sure it will run on GitHub Pages
 - [ x ] 3. spike/POC to see if I can get a simple form with state memory to not go blank on reload/refresh. https://rudil24.github.io/persistpoc/
-- [ ] 4. build MVP. task breakdown:
+- [ x ] 4. build MVP. task breakdown:
   - [ x ] ask for settings: numTeams and numBalls per team 
   - [ x ] render form and get array of teamName[] with submit/clear
   - [ x ] on submit, build hopper array & logic so we get "true" elements spawned, jumbled, being picked at random, and then removed from the hopper before the next pull. many of the existing draft tools just do blob percentages (oh you have 10 of the 50 balls? then any Math(random) from 0.0 to 0.2 is yours.) that ain't it.
@@ -31,6 +31,11 @@ Simply open your browser to https://rudil24.github.io/draftballs/. This webapp i
 - [ x ] 6. Improve analytics (as user enters teamBalls, auto-update % of total balls.) 
 - [ ] 7. Also look at installing probability column(s) on reveal. Probability of being picked when they did, and probability of NOT being picked UNTIL they did (not a statistician will probably need AI here to help). SHELVED FOR NOW, look/feel more important, overall % is good enough from previous step. 
 - [ ] 8. Improve UI/UX with color/typography/theming/responsive design improvements
+    * single sans-serif font (poppins?)
+    * light mode in pick side too
+    * glow in dark from https://mui.com/material-ui/getting-started/templates/marketing-page/
+    * my palette
+    * no gray balls (we'll use gray when we pull them before reveal)
 - [ ] 9. DEPLOY v0.5, test with actual users 
 
 ## Reflection

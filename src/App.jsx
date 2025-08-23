@@ -22,11 +22,30 @@ import TeamForm from './components/TeamForm';
 import HopperVisualizer from './components/HopperVisualizer';
 import ResultsDisplay from './components/ResultsDisplay';
 
-const colorArray = ["gold", "navy", "red", "purple", "orangered", "darkgreen", "maroon", "black", 
-                          "yellow", "blue", "crimson", "mediumpurple", "orange", "lightgreen", "brown", "gray"];
+// NEW: A contrast-safe color palette with light and dark mode variants
+const colorPalette = [
+  { light: '#C00000', dark: '#FF5656' }, // 1. Red
+  { light: '#00358E', dark: '#6A9FFF' }, // 2. Blue
+  { light: '#006421', dark: '#00E94F' }, // 3. Green
+  { light: '#6A009C', dark: '#D07CFF' }, // 4. Purple
+  { light: '#B85E00', dark: '#FFA947' }, // 5. Orange
+  { light: '#998100', dark: '#FFF27D' }, // 6. Gold
+  { light: '#85004E', dark: '#FF74C8' }, // 7. Magenta
+  { light: '#006670', dark: '#00F5FF' }, // 8. Teal
+  { light: '#5C3A00', dark: '#D4A86A' }, // 9. Brown
+  { light: '#006161', dark: '#00E2E2' }, // 10. Cyan
+  { light: '#A30000', dark: '#FF8787' }, // 11. Crimson
+  { light: '#260E69', dark: '#BAB1F3' }, // 12. Indigo
+  { light: '#007C55', dark: '#00FFB2' }, // 13. Mint Green
+  { light: '#737373', dark: '#FFFFFF' }, // 14. Gray/White
+  { light: '#CF4B00', dark: '#FFB891' }, // 15. Vermilion
+  { light: '#3C4000', dark: '#DCE43D' }, // 16. Olive
+];
+
 
 function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const mode = prefersDarkMode ? 'dark' : 'light'; // Determine current mode
 
   let theme = useMemo(
     () =>
@@ -131,7 +150,16 @@ function App() {
             <Grid item xs={12} tablet={6}>
               <Paper elevation={3} sx={{ p: { xs: 2, sm: 3 }, height: '100%', maxWidth: { xs: 420, tablet: '100%' }, mx: 'auto' }}>
                 <Settings numTeams={numTeams} onNumTeamsChange={(v) => setNumTeams(Number(v))} disabled={isLocked} />
-                <TeamForm key={numTeams} numTeams={numTeams} initialTeamsData={teamsData} colorArray={colorArray} onRunLottery={handleRunLottery} onClear={handleReset} disabled={isLocked} />
+                <TeamForm 
+                  key={numTeams} 
+                  numTeams={numTeams} 
+                  initialTeamsData={teamsData} 
+                  colorPalette={colorPalette} // Pass the new palette
+                  mode={mode} // Pass the current mode
+                  onRunLottery={handleRunLottery} 
+                  onClear={handleReset} 
+                  disabled={isLocked} 
+                />
               </Paper>
             </Grid>
             
