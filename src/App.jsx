@@ -46,7 +46,7 @@ function App() {
     breakpoints: { values: { xs: 0, sm: 600, tablet: 750, md: 900, lg: 1200, xl: 1920 } },
     palette: { mode, primary: { main: indigo[500] } },
     typography: {
-      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+      fontFamily: '"Poppins", sans-serif', // UPDATED FONT
       h4: { fontSize: '1.6rem', '@media (min-width:750px)': { fontSize: '2.125rem' } },
       h6: { fontSize: '1.1rem', '@media (min-width:750px)': { fontSize: '1.25rem' } },
       body1: { fontSize: '0.9rem', '@media (min-width:750px)': { fontSize: '1rem' } },
@@ -133,8 +133,8 @@ function App() {
                   numTeams={numTeams} 
                   onNumTeamsChange={(v) => setNumTeams(Number(v))} 
                   disabled={isLocked}
-                  onClear={handleReset} // Pass onClear prop here
-                  isLocked={isLocked}      // Pass isLocked to control visibility
+                  onClear={handleReset}
+                  isLocked={isLocked}
                 />
                 <TeamForm 
                   key={numTeams} 

@@ -8,13 +8,12 @@ function Footer() {
     <Box 
       component="footer" 
       sx={{
-        // Replicates the styles from Footer.css
         textAlign: 'center',
-        py: 2, // Use theme-aware padding
-        mt: 4, // Add some margin top to separate from content
+        py: 2,
+        mt: 4,
       }}
     >
-      <Typography variant="body2" sx={{ color: '#ccc' }}>
+      <Typography variant="body2" sx={{ color: 'text.secondary' }}>
         Copyright © {currentYear} rudil24. GNU General Public License v3.0
       </Typography>
     </Box>

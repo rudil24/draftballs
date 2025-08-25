@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import TeamInputRow from './TeamInputRow';
 import { Box, Button, Typography, Stack, TextField } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 
 const FormHeader = ({ totalBalls }) => (

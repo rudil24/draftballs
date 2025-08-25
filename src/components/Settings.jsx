@@ -9,11 +9,10 @@ function Settings({ numTeams, onNumTeamsChange, disabled, onClear, isLocked }) {
     <Box 
       display="flex" 
       alignItems="center" 
-      justifyContent="space-between" // Pushes items to ends
+      justifyContent="space-between"
       mb={3} 
       sx={{ flexWrap: 'wrap', flexShrink: 0 }}
     >
-      {/* Group for left-side controls */}
       <Box display="flex" alignItems="center" gap={2}>
         <Typography variant="body1" component="label" htmlFor="num-teams" sx={{ flexShrink: 0 }}>
           Teams
@@ -32,7 +31,6 @@ function Settings({ numTeams, onNumTeamsChange, disabled, onClear, isLocked }) {
         </Button>
       </Box>
 
-      {/* Conditionally rendered Clear button on the right */}
       {isLocked && (
         <Button
           variant="outlined"
