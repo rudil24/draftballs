@@ -13,12 +13,12 @@ const FormHeader = ({ totalBalls }) => (
       disabled
       variant="outlined"
       size="small"
-      sx={{ width: '90px', mr: 1.5 }}
+      sx={{ width: '5.625rem', mr: 1.5 }}
     />
     <Typography
       variant="body2"
       sx={{
-        width: '55px',
+        width: '3.4375rem',
         textAlign: 'right',
         color: 'text.secondary'
       }}
@@ -60,22 +60,19 @@ function TeamForm({ numTeams, initialTeamsData, colorPalette, mode, onRunLottery
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1, minHeight: 0 }}>
       <FormHeader totalBalls={totalBalls} />
       
-      <Box sx={{ flexGrow: 1, overflowY: 'auto', mt: 1, pr: { xs: 0.5, sm: 1 } }}>
+      <Box sx={{
+          mt: 1,
+          pr: { xs: 0.5, sm: 1 },
+          overflowY: 'auto',
+          flexGrow: { xs: 1, tablet: 0 },
+        }}>
         <Stack spacing={1.5}>
           {localTeams.map(team => {
             const percentage = totalBalls > 0 ? (Number(team.teamBalls || 0) / totalBalls) * 100 : 0;
-            return (
-              <TeamInputRow
-                key={team.teamId}
-                team={team}
-                onTeamChange={handleTeamChange}
-                percentage={percentage}
-                disabled={disabled}
-              />
-            );
+            return (<TeamInputRow key={team.teamId} team={team} onTeamChange={handleTeamChange} percentage={percentage} disabled={disabled} />);
           })}
         </Stack>
       </Box>

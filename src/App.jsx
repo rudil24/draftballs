@@ -10,7 +10,6 @@ import {
   Box,
 } from '@mui/material';
 import { indigo } from '@mui/material/colors';
-
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Settings from './components/Settings';
@@ -19,22 +18,14 @@ import HopperVisualizer from './components/HopperVisualizer';
 import ResultsDisplay from './components/ResultsDisplay';
 
 const colorPalette = [
-  { light: '#C00000', dark: '#FF5656' }, // 1. Red
-  { light: '#00358E', dark: '#6A9FFF' }, // 2. Blue
-  { light: '#006421', dark: '#00E94F' }, // 3. Green
-  { light: '#6A009C', dark: '#D07CFF' }, // 4. Purple
-  { light: '#B85E00', dark: '#FFA947' }, // 5. Orange
-  { light: '#998100', dark: '#FFF27D' }, // 6. Gold
-  { light: '#85004E', dark: '#FF74C8' }, // 7. Magenta
-  { light: '#006670', dark: '#00F5FF' }, // 8. Teal
-  { light: '#5C3A00', dark: '#D4A86A' }, // 9. Brown
-  { light: '#006161', dark: '#00E2E2' }, // 10. Cyan
-  { light: '#A30000', dark: '#FF8787' }, // 11. Crimson
-  { light: '#260E69', dark: '#BAB1F3' }, // 12. Indigo
-  { light: '#007C55', dark: '#00FFB2' }, // 13. Mint Green
-  { light: '#737373', dark: '#FFFFFF' }, // 14. Gray/White
-  { light: '#CF4B00', dark: '#FFB891' }, // 15. Vermilion
-  { light: '#3C4000', dark: '#DCE43D' }, // 16. Olive
+  { light: '#C00000', dark: '#FF5656' }, { light: '#00358E', dark: '#6A9FFF' },
+  { light: '#006421', dark: '#00E94F' }, { light: '#6A009C', dark: '#D07CFF' },
+  { light: '#B85E00', dark: '#FFA947' }, { light: '#998100', dark: '#FFF27D' },
+  { light: '#85004E', dark: '#FF74C8' }, { light: '#006670', dark: '#00F5FF' },
+  { light: '#5C3A00', dark: '#D4A86A' }, { light: '#006161', dark: '#00E2E2' },
+  { light: '#A30000', dark: '#FF8787' }, { light: '#260E69', dark: '#BAB1F3' },
+  { light: '#007C55', dark: '#00FFB2' }, { light: '#737373', dark: '#FFFFFF' },
+  { light: '#CF4B00', dark: '#FFB891' }, { light: '#3C4000', dark: '#DCE43D' },
 ];
 
 function App() {
@@ -68,6 +59,14 @@ function App() {
         '@media (min-width:750px)': { fontSize: '0.875rem' },
       },
     },
+    components: {
+      MuiTextField: {
+        defaultProps: {
+          InputLabelProps: { sx: { fontSize: { xs: '0.8rem', sm: '0.9rem', tablet: '1rem' } } },
+          inputProps: { sx: { fontSize: { xs: '0.8rem', sm: '0.9rem', tablet: '1rem' } } },
+        },
+      },
+    },
   }), [prefersDarkMode]);
 
   const [numTeams, setNumTeams] = useState(() => JSON.parse(localStorage.getItem('draftballs_numTeams')) || 12);
@@ -75,7 +74,6 @@ function App() {
   const [pickResults, setPickResults] = useState(() => JSON.parse(localStorage.getItem('draftballs_pickResults')) || []);
   const [timestamp, setTimestamp] = useState(() => localStorage.getItem('draftballs_timestamp') || null);
   const [revealedPicks, setRevealedPicks] = useState(() => new Set(JSON.parse(localStorage.getItem('draftballs_revealedPicks')) || []));
-  
   const [lotteryStatus, setLotteryStatus] = useState(() => {
      return (JSON.parse(localStorage.getItem('draftballs_pickResults')) || []).length > 0 ? 'results_ready' : 'setup';
   });
@@ -95,19 +93,16 @@ function App() {
   const handleRunLottery = (finalTeamsData) => {
     setTeamsData(finalTeamsData);
     setRevealedPicks(new Set());
-
     const hopperArray = [];
     finalTeamsData.forEach(team => {
         for (let i = 0; i < team.teamBalls; i++) {
             hopperArray.push({ teamId: team.teamId, teamName: team.teamName }); 
         }
     });
-
     for (let i = hopperArray.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [hopperArray[i], hopperArray[j]] = [hopperArray[j], hopperArray[i]];
     }
-
     const finalPicks = [];
     const pickedTeamIds = new Set();
     while (finalPicks.length < numTeams && hopperArray.length > 0) {  
@@ -117,7 +112,6 @@ function App() {
             pickedTeamIds.add(hopperArray[randomIndex].teamId);
         }
     }
-
     setPickResults(finalPicks.map((pick, index) => ({ ...pick, pickNumber: index + 1 })));
     setTimestamp(new Date().toLocaleString());
     setLotteryStatus('results_ready');
@@ -142,12 +136,9 @@ function App() {
       <CssBaseline />
       <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <Header />
-        <Container component="main" maxWidth="xl" sx={{ my: { xs: 2, sm: 4 }, flexGrow: 1 }}>
-          {/* Add display: 'flex' to make the container's children (the items) height-aware */}
-          <Grid container spacing={{ xs: 2, sm: 4 }} sx={{ height: '100%' }}>
-            
-            {/* FIX: Make the Grid item a flex container */}
-            <Grid item xs={12} tablet={6} sx={{ display: 'flex' }}>
+        <Container component="main" maxWidth="xl" sx={{ my: { xs: 2, sm: 4 }, flexGrow: 1, display: 'flex' }}>
+          <Grid container spacing={{ xs: 2, sm: 4 }} sx={{ flexGrow: 1 }}>
+            <Grid item xs={12} tablet={6} sx={{ display: 'flex', flexDirection: 'column' }}>
               <Paper
                 elevation={3}
                 sx={{
@@ -155,7 +146,8 @@ function App() {
                   width: '100%',
                   display: 'flex',
                   flexDirection: 'column',
-                  flexGrow: 1, // FIX: Allow Paper to grow vertically
+                  flexGrow: 1,
+                  maxHeight: { xs: '75vh', tablet: 'none' },
                 }}
               >
                 <Settings numTeams={numTeams} onNumTeamsChange={(v) => setNumTeams(Number(v))} disabled={isLocked} />
@@ -171,9 +163,7 @@ function App() {
                 />
               </Paper>
             </Grid>
-
-            {/* FIX: Make the Grid item a flex container */}
-            <Grid item xs={12} tablet={6} sx={{ display: 'flex' }}>
+            <Grid item xs={12} tablet={6} sx={{ display: 'flex', flexDirection: 'column' }}>
               <Paper
                 elevation={3}
                 sx={{
@@ -181,7 +171,8 @@ function App() {
                   width: '100%',
                   display: 'flex',
                   flexDirection: 'column',
-                  flexGrow: 1, // FIX: Allow Paper to grow vertically
+                  flexGrow: 1,
+                  maxHeight: { xs: '75vh', tablet: 'none' },
                 }}
               >
                 <HopperVisualizer />
@@ -196,7 +187,6 @@ function App() {
                 )}
               </Paper>
             </Grid>
-
           </Grid>
         </Container>
         <Footer />

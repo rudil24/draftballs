@@ -4,12 +4,16 @@ import { Stack, Typography, Box } from '@mui/material';
 
 function ResultsDisplay({ pickResults, teamsData, timestamp, revealedPicks, onRevealPick }) {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1, minHeight: 0 }}>
       <Typography variant="h6" component="h3" gutterBottom align="center" sx={{ flexShrink: 0 }}>
         Draft Order
       </Typography>
       
-      <Box sx={{ flexGrow: 1, overflowY: 'auto', pr: { xs: 0.5, sm: 1 } }}>
+      <Box sx={{
+          flexGrow: { xs: 1, tablet: 0 },
+          overflowY: 'auto',
+          pr: { xs: 0.5, sm: 1 },
+        }}>
         <Stack spacing={1}>
           {pickResults.map(pick => (
             <Pick

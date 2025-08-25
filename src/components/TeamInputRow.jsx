@@ -2,36 +2,38 @@ import React from 'react';
 import { TextField, Box, Typography } from '@mui/material';
 
 function TeamInputRow({ team, onTeamChange, percentage, disabled }) {
-  const textColor = team.color === 'black' ? '#FFFFFF' : team.color;
+  const textColor = team.color === '#FFFFFF' ? '#000000' : team.color;
 
   return (
-    // The main flex container for the row
     <Box display="flex" alignItems="center" gap={1.5}>
-      
-      {/* Column 1: Team ID */}
-      <Typography variant="body1" sx={{ width: '3em', textAlign: 'right', flexShrink: 0 }}>
+      <Typography
+        variant="body2"
+        sx={{
+          width: '3em',
+          textAlign: 'right',
+          flexShrink: 0,
+          fontSize: { xs: '0.8rem', sm: '0.9rem', tablet: '1rem' }
+        }}
+      >
         {team.teamId}.
       </Typography>
       
-      {/* Column 2: Color Indicator */}
       <Box 
         sx={{ 
-          width: 20, 
-          height: 20,
+          width: '1.25rem', 
+          height: '1.25rem',
           flexShrink: 0,
           borderRadius: '50%', 
           backgroundColor: team.color,
-          // border: '1px solid grey', //removing border for more matte finish
         }} 
       />
       
-      {/* Column 3: Team Name (takes up remaining space) */}
       <Box sx={{ flexGrow: 1 }}>
         <TextField
           label="Team Name"
           value={team.teamName}
           onChange={(e) => onTeamChange(team.teamId, 'teamName', e.target.value)}
-          fullWidth // Fills the parent Box
+          fullWidth
           required
           disabled={disabled}
           variant="outlined"
@@ -42,7 +44,6 @@ function TeamInputRow({ team, onTeamChange, percentage, disabled }) {
         />
       </Box>
       
-      {/* Column 4: Balls Input (wider) */}
       <TextField
         label="Balls"
         type="number"
@@ -53,18 +54,18 @@ function TeamInputRow({ team, onTeamChange, percentage, disabled }) {
         inputProps={{ min: 1 }}
         variant="outlined"
         size="small"
-        sx={{ width: '90px', flexShrink: 0 }} // Increased width
+        sx={{ width: '5.625rem', flexShrink: 0 }}
       />
       
-      {/* Column 5: Percentage Display */}
       <Typography 
-        variant="body1" 
+        variant="body2" 
         sx={{ 
-          width: '55px', 
+          width: '3.4375rem',
           textAlign: 'right', 
           color: 'text.secondary',
           fontVariantNumeric: 'tabular-nums',
-          flexShrink: 0
+          flexShrink: 0,
+          fontSize: { xs: '0.8rem', sm: '0.9rem', tablet: '1rem' }
         }}
       >
         {percentage.toFixed(1)}%
