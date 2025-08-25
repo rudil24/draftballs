@@ -15,7 +15,7 @@ function Settings({ numTeams, onNumTeamsChange, disabled }) {
         value={localNumTeams}
         onChange={(e) => setLocalNumTeams(e.target.value)}
         disabled={disabled}
-        inputProps={{ min: 1, max: 16, step: 1 }}
+        inputProps={{ min: 1, max: 18, step: 1 }} // UPDATED: max is now 18
         size="small"
       />
       <Button variant="outlined" onClick={() => onNumTeamsChange(localNumTeams)} disabled={disabled}>

@@ -1,32 +1,27 @@
 import React from 'react';
-import { TextField, Box, Typography } from '@mui/material';
+import { TextField, Box, Typography, Tooltip } from '@mui/material';
 
 function TeamInputRow({ team, onTeamChange, percentage, disabled }) {
   const textColor = team.color === '#FFFFFF' ? '#000000' : team.color;
 
   return (
     <Box display="flex" alignItems="center" gap={1.5}>
-      <Typography
-        variant="body2"
-        sx={{
-          width: '3em',
-          textAlign: 'right',
-          flexShrink: 0,
-          fontSize: { xs: '0.8rem', sm: '0.9rem', tablet: '1rem' }
-        }}
-      >
+      <Typography variant="body2" sx={{ width: '3em', textAlign: 'right', flexShrink: 0, fontSize: { xs: '0.8rem', sm: '0.9rem', tablet: '1rem' } }}>
         {team.teamId}.
       </Typography>
       
-      <Box 
-        sx={{ 
-          width: '1.25rem', 
-          height: '1.25rem',
-          flexShrink: 0,
-          borderRadius: '50%', 
-          backgroundColor: team.color,
-        }} 
-      />
+      {/* UPDATED: Wrapped the Box in a Tooltip */}
+      <Tooltip title={team.alttext || ''} placement="top" arrow>
+        <Box 
+          sx={{ 
+            width: '1.25rem', 
+            height: '1.25rem',
+            flexShrink: 0,
+            borderRadius: '50%', 
+            backgroundColor: team.color,
+          }} 
+        />
+      </Tooltip>
       
       <Box sx={{ flexGrow: 1 }}>
         <TextField
@@ -38,9 +33,7 @@ function TeamInputRow({ team, onTeamChange, percentage, disabled }) {
           disabled={disabled}
           variant="outlined"
           size="small"
-          InputLabelProps={{
-            style: { color: textColor },
-          }}
+          InputLabelProps={{ style: { color: textColor } }}
         />
       </Box>
       

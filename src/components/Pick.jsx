@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Paper, Typography, Box } from '@mui/material';
+import { Button, Paper, Typography, Box, Tooltip } from '@mui/material';
 
 function Pick({ pick, team, isRevealed, onReveal }) {
   if (!isRevealed) {
@@ -15,8 +15,7 @@ function Pick({ pick, team, isRevealed, onReveal }) {
     );
   }
 
-  // If the team color is black, use white for the text.
-  const textColor = team.color === 'black' ? '#FFFFFF' : team.color;
+  const textColor = team.color === '#FFFFFF' ? '#000000' : team.color;
 
   return (
     <Paper 
@@ -26,19 +25,24 @@ function Pick({ pick, team, isRevealed, onReveal }) {
       <Typography variant="body1" sx={{ width: '3em', color: 'text.secondary' }}>
         #{pick.pickNumber}
       </Typography>
-      <Box 
-        sx={{ 
-          width: 20, 
-          height: 20, 
-          borderRadius: '50%', 
-          backgroundColor: team.color,
-          // border: '1px solid grey', //removed for more matte finish (& matches TeamInputRow style)
-          flexShrink: 0
-        }} 
-      />
+      
+      {/* UPDATED: Wrapped the Box in a Tooltip */}
+      <Tooltip title={team.alttext || ''} placement="top" arrow>
+        <Box 
+          sx={{ 
+            width: '1.25rem', 
+            height: '1.25rem', 
+            borderRadius: '50%', 
+            backgroundColor: team.color,
+            flexShrink: 0
+          }} 
+        />
+      </Tooltip>
+      
       <Typography variant="body1" sx={{ fontWeight: 'bold', color: textColor, flexGrow: 1 }}>
         {team.teamName}
       </Typography>
+      
       <Typography variant="body2" color="text.secondary">
         ({team.teamBalls} balls)
       </Typography>

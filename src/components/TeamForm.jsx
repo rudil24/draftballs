@@ -7,24 +7,8 @@ import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite
 const FormHeader = ({ totalBalls }) => (
   <Box display="flex" alignItems="center" sx={{ pl: 'calc(3em + 20px + 28px)', flexShrink: 0 }}>
     <Box sx={{ flexGrow: 1 }} />
-    <TextField
-      label="SUM"
-      value={totalBalls}
-      disabled
-      variant="outlined"
-      size="small"
-      sx={{ width: '5.625rem', mr: 1.5 }}
-    />
-    <Typography
-      variant="body2"
-      sx={{
-        width: '3.4375rem',
-        textAlign: 'right',
-        color: 'text.secondary'
-      }}
-    >
-      %
-    </Typography>
+    <TextField label="SUM" value={totalBalls} disabled variant="outlined" size="small" sx={{ width: '5.625rem', mr: 1.5 }} />
+    <Typography variant="body2" sx={{ width: '3.4375rem', textAlign: 'right', color: 'text.secondary' }}>%</Typography>
   </Box>
 );
 
@@ -34,11 +18,14 @@ function TeamForm({ numTeams, initialTeamsData, colorPalette, mode, onRunLottery
   useEffect(() => {
     const newTeams = Array.from({ length: numTeams }, (_, i) => {
       const existingTeam = initialTeamsData.find(t => t.teamId === i + 1);
+      const colorData = colorPalette[i % colorPalette.length];
       return {
         teamId: i + 1,
         teamName: existingTeam?.teamName || '',
         teamBalls: existingTeam?.teamBalls || '',
-        color: colorPalette[i % colorPalette.length][mode],
+        // UPDATED: Access new properties based on mode
+        color: colorData[mode + 'mode'],
+        alttext: colorData[mode + 'modeAlttext'],
       };
     });
     setLocalTeams(newTeams);
@@ -62,13 +49,7 @@ function TeamForm({ numTeams, initialTeamsData, colorPalette, mode, onRunLottery
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1, minHeight: 0 }}>
       <FormHeader totalBalls={totalBalls} />
-      
-      <Box sx={{
-          mt: 1,
-          pr: { xs: 0.5, sm: 1 },
-          overflowY: 'auto',
-          flexGrow: { xs: 1, tablet: 0 },
-        }}>
+      <Box sx={{ mt: 1, pr: { xs: 0.5, sm: 1 }, overflowY: 'auto', flexGrow: { xs: 1, tablet: 0 } }}>
         <Stack spacing={1.5}>
           {localTeams.map(team => {
             const percentage = totalBalls > 0 ? (Number(team.teamBalls || 0) / totalBalls) * 100 : 0;
@@ -76,26 +57,9 @@ function TeamForm({ numTeams, initialTeamsData, colorPalette, mode, onRunLottery
           })}
         </Stack>
       </Box>
-
       <Box display="flex" justifyContent="space-between" mt={3} sx={{ flexShrink: 0 }}>
-        <Button
-          variant="outlined"
-          color="error"
-          startIcon={<DeleteIcon />}
-          onClick={onClear}
-        >
-          Clear
-        </Button>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          size="large"
-          startIcon={<PlayCircleFilledWhiteIcon />}
-          disabled={disabled}
-        >
-          GO!
-        </Button>
+        <Button variant="outlined" color="error" startIcon={<DeleteIcon />} onClick={onClear}>Clear</Button>
+        <Button type="submit" variant="contained" color="primary" size="large" startIcon={<PlayCircleFilledWhiteIcon />} disabled={disabled}>GO!</Button>
       </Box>
     </Box>
   );

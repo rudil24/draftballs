@@ -17,15 +17,26 @@ import TeamForm from './components/TeamForm';
 import HopperVisualizer from './components/HopperVisualizer';
 import ResultsDisplay from './components/ResultsDisplay';
 
-const colorPalette = [
-  { light: '#C00000', dark: '#FF5656' }, { light: '#00358E', dark: '#6A9FFF' },
-  { light: '#006421', dark: '#00E94F' }, { light: '#6A009C', dark: '#D07CFF' },
-  { light: '#B85E00', dark: '#FFA947' }, { light: '#998100', dark: '#FFF27D' },
-  { light: '#85004E', dark: '#FF74C8' }, { light: '#006670', dark: '#00F5FF' },
-  { light: '#5C3A00', dark: '#D4A86A' }, { light: '#006161', dark: '#00E2E2' },
-  { light: '#A30000', dark: '#FF8787' }, { light: '#260E69', dark: '#BAB1F3' },
-  { light: '#007C55', dark: '#00FFB2' }, { light: '#737373', dark: '#FFFFFF' },
-  { light: '#CF4B00', dark: '#FFB891' }, { light: '#3C4000', dark: '#DCE43D' },
+// NEW: Updated ballColorPalette with 18 colors and new property names
+const ballColorPalette = [
+    { lightmode: '#fae228', darkmode: '#fdf7a0', lightmodeAlttext: 'vivid yellow', darkmodeAlttext: 'pale yellow'},
+    { lightmode: '#1476b2', darkmode: '#94caea', lightmodeAlttext: 'vivid blue', darkmodeAlttext: 'pale blue'},
+    { lightmode: '#d14142', darkmode: '#f8b5b2', lightmodeAlttext: 'vivid red', darkmodeAlttext: 'pale red'},
+    { lightmode: '#5f4a86', darkmode: '#bca7d0', lightmodeAlttext: 'vivid violet', darkmodeAlttext: 'pale violet'},
+    { lightmode: '#e88d37', darkmode: '#ffcfa0', lightmodeAlttext: 'vivid orange', darkmodeAlttext: 'pale orange'},
+    { lightmode: '#249847', darkmode: '#a9d7a9', lightmodeAlttext: 'vivid green', darkmodeAlttext: 'pale green'},
+    { lightmode: '#ba3485', darkmode: '#e6a5d0', lightmodeAlttext: 'vivid magenta', darkmodeAlttext: 'pale magenta'},
+    { lightmode: '#029f9f', darkmode: '#96d3d2', lightmodeAlttext: 'vivid cyan', darkmodeAlttext: 'pale cyan'},
+    { lightmode: '#a9ca3d', darkmode: '#c8e89c', lightmodeAlttext: 'vivid lime', darkmodeAlttext: 'pale lime'},
+    { lightmode: '#8a762c', darkmode: '#bfab6d', lightmodeAlttext: 'dark yellow', darkmodeAlttext: 'muted yellow'},
+    { lightmode: '#2c4766', darkmode: '#607697', lightmodeAlttext: 'dark blue', darkmodeAlttext: 'muted blue'},
+    { lightmode: '#7d292b', darkmode: '#b27d7a', lightmodeAlttext: 'dark red', darkmodeAlttext: 'muted red'},
+    { lightmode: '#473a60', darkmode: '#827492', lightmodeAlttext: 'dark violet', darkmodeAlttext: 'muted violet'},
+    { lightmode: '#885332', darkmode: '#bc906b', lightmodeAlttext: 'dark orange', darkmodeAlttext: 'muted orange'},
+    { lightmode: '#2c5e39', darkmode: '#759676', lightmodeAlttext: 'dark green', darkmodeAlttext: 'muted green'},
+    { lightmode: '#68274d', darkmode: '#9e728b', lightmodeAlttext: 'dark magenta', darkmodeAlttext: 'muted magenta'},
+    { lightmode: '#195d65', darkmode: '#5a8c8b', lightmodeAlttext: 'dark cyan', darkmodeAlttext: 'muted cyan'},
+    { lightmode: '#617030', darkmode: '#95a271', lightmodeAlttext: 'dark lime', darkmodeAlttext: 'muted lime'},
 ];
 
 function App() {
@@ -33,31 +44,14 @@ function App() {
   const mode = prefersDarkMode ? 'dark' : 'light';
 
   const theme = useMemo(() => createTheme({
-    breakpoints: {
-      values: { xs: 0, sm: 600, tablet: 750, md: 900, lg: 1200, xl: 1920 },
-    },
-    palette: {
-      mode,
-      primary: { main: indigo[500] },
-    },
+    breakpoints: { values: { xs: 0, sm: 600, tablet: 750, md: 900, lg: 1200, xl: 1920 } },
+    palette: { mode, primary: { main: indigo[500] } },
     typography: {
       fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-      h4: {
-        fontSize: '1.6rem',
-        '@media (min-width:750px)': { fontSize: '2.125rem' },
-      },
-      h6: {
-        fontSize: '1.1rem',
-        '@media (min-width:750px)': { fontSize: '1.25rem' },
-      },
-      body1: {
-        fontSize: '0.9rem',
-        '@media (min-width:750px)': { fontSize: '1rem' },
-      },
-      body2: {
-        fontSize: '0.8rem',
-        '@media (min-width:750px)': { fontSize: '0.875rem' },
-      },
+      h4: { fontSize: '1.6rem', '@media (min-width:750px)': { fontSize: '2.125rem' } },
+      h6: { fontSize: '1.1rem', '@media (min-width:750px)': { fontSize: '1.25rem' } },
+      body1: { fontSize: '0.9rem', '@media (min-width:750px)': { fontSize: '1rem' } },
+      body2: { fontSize: '0.8rem', '@media (min-width:750px)': { fontSize: '0.875rem' } },
     },
     components: {
       MuiTextField: {
@@ -86,10 +80,7 @@ function App() {
     localStorage.setItem('draftballs_revealedPicks', JSON.stringify(Array.from(revealedPicks)));
   }, [numTeams, teamsData, pickResults, timestamp, revealedPicks]);
 
-  const handleRevealPick = (pickNumber) => {
-    setRevealedPicks(prev => new Set(prev).add(pickNumber));
-  };
-
+  const handleRevealPick = (pickNumber) => { setRevealedPicks(prev => new Set(prev).add(pickNumber)); };
   const handleRunLottery = (finalTeamsData) => {
     setTeamsData(finalTeamsData);
     setRevealedPicks(new Set());
@@ -116,7 +107,6 @@ function App() {
     setTimestamp(new Date().toLocaleString());
     setLotteryStatus('results_ready');
   };
-
   const handleReset = () => {
     setTeamsData([]);
     setPickResults([]);
@@ -139,52 +129,15 @@ function App() {
         <Container component="main" maxWidth="xl" sx={{ my: { xs: 2, sm: 4 }, flexGrow: 1, display: 'flex' }}>
           <Grid container spacing={{ xs: 2, sm: 4 }} sx={{ flexGrow: 1 }}>
             <Grid item xs={12} tablet={6} sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Paper
-                elevation={3}
-                sx={{
-                  p: { xs: 2, sm: 3 },
-                  width: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  flexGrow: 1,
-                  maxHeight: { xs: '75vh', tablet: 'none' },
-                }}
-              >
+              <Paper elevation={3} sx={{ p: { xs: 2, sm: 3 }, width: '100%', display: 'flex', flexDirection: 'column', flexGrow: 1, maxHeight: { xs: '75vh', tablet: 'none' } }}>
                 <Settings numTeams={numTeams} onNumTeamsChange={(v) => setNumTeams(Number(v))} disabled={isLocked} />
-                <TeamForm
-                  key={numTeams}
-                  numTeams={numTeams}
-                  initialTeamsData={teamsData}
-                  colorPalette={colorPalette}
-                  mode={mode}
-                  onRunLottery={handleRunLottery}
-                  onClear={handleReset}
-                  disabled={isLocked}
-                />
+                <TeamForm key={numTeams} numTeams={numTeams} initialTeamsData={teamsData} colorPalette={ballColorPalette} mode={mode} onRunLottery={handleRunLottery} onClear={handleReset} disabled={isLocked} />
               </Paper>
             </Grid>
             <Grid item xs={12} tablet={6} sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Paper
-                elevation={3}
-                sx={{
-                  p: { xs: 2, sm: 3 },
-                  width: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  flexGrow: 1,
-                  maxHeight: { xs: '75vh', tablet: 'none' },
-                }}
-              >
+              <Paper elevation={3} sx={{ p: { xs: 2, sm: 3 }, width: '100%', display: 'flex', flexDirection: 'column', flexGrow: 1, maxHeight: { xs: '75vh', tablet: 'none' } }}>
                 <HopperVisualizer />
-                {lotteryStatus === 'results_ready' && (
-                  <ResultsDisplay
-                    pickResults={pickResults}
-                    teamsData={teamsData}
-                    timestamp={timestamp}
-                    revealedPicks={revealedPicks}
-                    onRevealPick={handleRevealPick}
-                  />
-                )}
+                {lotteryStatus === 'results_ready' && ( <ResultsDisplay pickResults={pickResults} teamsData={teamsData} timestamp={timestamp} revealedPicks={revealedPicks} onRevealPick={handleRevealPick} /> )}
               </Paper>
             </Grid>
           </Grid>
