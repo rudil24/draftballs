@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TeamInputRow from './TeamInputRow';
 import { Box, Button, Typography, Stack, TextField } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 
 const FormHeader = ({ totalBalls }) => (
@@ -12,7 +11,7 @@ const FormHeader = ({ totalBalls }) => (
   </Box>
 );
 
-function TeamForm({ numTeams, initialTeamsData, colorPalette, mode, onRunLottery, onClear, disabled }) {
+function TeamForm({ numTeams, initialTeamsData, colorPalette, mode, onRunLottery, disabled }) {
   const [localTeams, setLocalTeams] = useState([]);
 
   useEffect(() => {
@@ -23,7 +22,6 @@ function TeamForm({ numTeams, initialTeamsData, colorPalette, mode, onRunLottery
         teamId: i + 1,
         teamName: existingTeam?.teamName || '',
         teamBalls: existingTeam?.teamBalls || '',
-        // UPDATED: Access new properties based on mode
         color: colorData[mode + 'mode'],
         alttext: colorData[mode + 'modeAlttext'],
       };
@@ -57,9 +55,17 @@ function TeamForm({ numTeams, initialTeamsData, colorPalette, mode, onRunLottery
           })}
         </Stack>
       </Box>
-      <Box display="flex" justifyContent="space-between" mt={3} sx={{ flexShrink: 0 }}>
-        <Button variant="outlined" color="error" startIcon={<DeleteIcon />} onClick={onClear}>Clear</Button>
-        <Button type="submit" variant="contained" color="primary" size="large" startIcon={<PlayCircleFilledWhiteIcon />} disabled={disabled}>GO!</Button>
+      <Box display="flex" justifyContent="flex-end" mt={3} sx={{ flexShrink: 0 }}>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          size="large"
+          startIcon={<PlayCircleFilledWhiteIcon />}
+          disabled={disabled}
+        >
+          GO!
+        </Button>
       </Box>
     </Box>
   );

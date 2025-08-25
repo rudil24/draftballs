@@ -17,7 +17,6 @@ import TeamForm from './components/TeamForm';
 import HopperVisualizer from './components/HopperVisualizer';
 import ResultsDisplay from './components/ResultsDisplay';
 
-// NEW: Updated ballColorPalette with 18 colors and new property names
 const ballColorPalette = [
     { lightmode: '#fae228', darkmode: '#fdf7a0', lightmodeAlttext: 'vivid yellow', darkmodeAlttext: 'pale yellow'},
     { lightmode: '#1476b2', darkmode: '#94caea', lightmodeAlttext: 'vivid blue', darkmodeAlttext: 'pale blue'},
@@ -130,8 +129,22 @@ function App() {
           <Grid container spacing={{ xs: 2, sm: 4 }} sx={{ flexGrow: 1 }}>
             <Grid item xs={12} tablet={6} sx={{ display: 'flex', flexDirection: 'column' }}>
               <Paper elevation={3} sx={{ p: { xs: 2, sm: 3 }, width: '100%', display: 'flex', flexDirection: 'column', flexGrow: 1, maxHeight: { xs: '75vh', tablet: 'none' } }}>
-                <Settings numTeams={numTeams} onNumTeamsChange={(v) => setNumTeams(Number(v))} disabled={isLocked} />
-                <TeamForm key={numTeams} numTeams={numTeams} initialTeamsData={teamsData} colorPalette={ballColorPalette} mode={mode} onRunLottery={handleRunLottery} onClear={handleReset} disabled={isLocked} />
+                <Settings 
+                  numTeams={numTeams} 
+                  onNumTeamsChange={(v) => setNumTeams(Number(v))} 
+                  disabled={isLocked}
+                  onClear={handleReset} // Pass onClear prop here
+                  isLocked={isLocked}      // Pass isLocked to control visibility
+                />
+                <TeamForm 
+                  key={numTeams} 
+                  numTeams={numTeams} 
+                  initialTeamsData={teamsData} 
+                  colorPalette={ballColorPalette} 
+                  mode={mode} 
+                  onRunLottery={handleRunLottery} 
+                  disabled={isLocked} 
+                />
               </Paper>
             </Grid>
             <Grid item xs={12} tablet={6} sx={{ display: 'flex', flexDirection: 'column' }}>
