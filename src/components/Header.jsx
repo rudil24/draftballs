@@ -21,13 +21,18 @@ function Header() {
             gap: 1
           }}
         >
+          <SportsGolfIcon />
+          <SportsBaseballIcon />
+          <SportsBasketballIcon /> 
+          <SportsFootballIcon /> 
+          <Box component="span" sx={{ ml: 1.5 }}>
+            draftBalls v0.5
+          </Box>
           <SportsFootballIcon /> 
           <SportsBasketballIcon /> 
           <SportsBaseballIcon />
           <SportsGolfIcon />
-          <Box component="span" sx={{ ml: 1.5 }}>
-            draftBalls
-          </Box>
+
         </Typography>
       </Toolbar>
     </AppBar>

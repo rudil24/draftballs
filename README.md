@@ -29,18 +29,19 @@ Simply open your browser to https://rudil24.github.io/draftballs/. This webapp i
   - [ x ] progressive disclosure of the balls picked, in inverse order (or user choice of order?)
 - [ x ] 5. Test local (self), DEPLOY as v0.1 to GH Pages
 - [ x ] 6. Improve analytics (as user enters teamBalls, auto-update % of total balls.) 
-- [ ] 7. Also look at installing probability column(s) on reveal. Probability of being picked when they did, and probability of NOT being picked UNTIL they did (not a statistician will probably need AI here to help). SHELVED FOR NOW, look/feel more important, overall % is good enough from previous step. 
-- [ ] 8. Improve UI/UX with color/typography/theming/responsive design improvements
-    * single sans-serif font (poppins?)
-    * light mode in pick side too
-    * glow in dark from https://mui.com/material-ui/getting-started/templates/marketing-page/
-    * my palette
-    * no gray balls (we'll use gray when we pull them before reveal)
-- [ ] 9. DEPLOY v0.5, test with actual users 
+- [ ] 7. NOT NOW. Also look at installing probability column(s) on reveal. Probability of being picked when they did, and probability of NOT being picked UNTIL they did (not a statistician will probably need AI here to help). SHELVED FOR NOW, look/feel more important, overall % is good enough from previous step. 
+- [ x ] 8. Improve UI/UX with color/typography/theming/responsive design improvements
+    * YES - single sans-serif font (poppins?)
+    * YES - light mode in pick side too
+    * NO - glow in dark from https://mui.com/material-ui/getting-started/templates/marketing-page/
+    * YES - my improved light/dark ball color palette
+    * YES - no gray balls (we'll use gray when we pull them before reveal)
+- [ x ] 9. DEPLOY v0.5, test with actual users 
 
 ## Reflection
 |   |   |
 |---|---|
+| 24-aug-2025 | SUMMARY: i got in over my head with having Gemini 2.5 apply Material Theme, i didn't know enough to fix stuff in this short of time. I learned a lot about Material though, and will look to use it when it makes sense. It probably didn't for this project, and I threw it in there on a whim thinking the AI would bail me out, in fact, i ended up having to bail it out a bit, with my limited knowledge. But i have a working v0.5 and i'll return to refactor when I'm a little less rusty. For now: THAT'S A WRAP! |
 | 22-aug-2025 | Stood up first React version, i really like the quick single page app capabilities with useEffect, will need to tap into even more i can do there
 | 21-aug-2025 | React single page app is much easier to envision now. Needed to ask AI on some of the useState / useEffect
 | 20-aug-2025 | OK got a rudimentary (get it) version going in indexOG.html. i need to make it tighter/compartmentalized with the teams update button (it just appends stuff to the form rn.) but the refresh happy path works. i'll look to compartmentalize as i move it to react, and fix its absolute ugliness in the display. but the MATH and hopper functionality IS THERE!

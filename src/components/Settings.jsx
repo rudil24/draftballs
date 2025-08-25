@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextField, Button, Box, Typography } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 
 function Settings({ numTeams, onNumTeamsChange, disabled, onClear, isLocked }) {
   const [localNumTeams, setLocalNumTeams] = React.useState(numTeams);
@@ -35,7 +35,7 @@ function Settings({ numTeams, onNumTeamsChange, disabled, onClear, isLocked }) {
         <Button
           variant="outlined"
           color="error"
-          startIcon={<DeleteIcon />}
+          startIcon={<DeleteSweepIcon />}
           onClick={onClear}
         >
           Clear
